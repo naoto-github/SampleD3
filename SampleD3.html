@@ -2,22 +2,71 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Sample D3.js</title>
+    <title>日進市の町別人口</title>
 
     <!-- D3.js -->
     <script src="https://d3js.org/d3.v5.js"></script>
 
     <!-- Main Script -->
     <script>
-      CSV_FILE = "./data.csv";
-      d3.csv(CSV_FILE, function(error, data){
-        console.log(data);
+
+      var CSV_FILE = "https://raw.githubusercontent.com/naoto-github/SampleD3/master/data.csv";
+
+      d3.csv(CSV_FILE, function(data){
+        return {
+          city: data.町名,
+          population: data.総数
+        };
+      }).then(function(dataframe){
+
+        console.log(dataframe)
+
+        svg = d3.select("#canvas");
+
+        svg.selectAll("svg")
+        .data(dataframe)
+        .enter()
+        .append("rect")
+        .attr("x", function(d, i){return i * 30})
+        .attr("y", function(d, i){
+          h = Number(d.population.split(',').join(''));
+          h = h / 20;
+          y = 520 - h;
+          return y;
+        })
+        .attr("width", 20)
+        .attr("height", function(d, i){
+          h = Number(d.population.split(',').join(''));
+          h = h / 20;
+          return h;
+        })
+        .style("fill", "#ff0000");
+
+        svg.selectAll("svg")
+        .data(dataframe)
+        .enter()
+        .append("text")
+        .attr("x", function(d, i){return i * 30 + 10})
+        .attr("y", 560)
+        .attr("height", 20)
+        .text(function(d, i){
+          return d.city;
+        })
+        .style("writing-mode", "tb-rl")
+        .style("color", "#000000")
+        .style("text-anchor", "middle")
+        .style("font-size", "10")
+        .style("fill","#000000");
       });
+
     </script>
   </head>
 
   <body>
-    <h1>Sample D3.js</h1>
+    <h1>日進市の町別人口</h1>
+
+    <svg id="canvas" width="800", height="600"></svg>
+
   </body>
 
 </html>
