@@ -1,12 +1,23 @@
-<<!DOCTYPE html>
-
+<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Sample D3.js</title>
-  </head>
-  
-  <body>
 
+    <!-- D3.js -->
+    <script src="https://d3js.org/d3.v5.js"></script>
+
+    <!-- Main Script -->
+    <script>
+      CSV_FILE = "./data.csv";
+      d3.csv(CSV_FILE, function(error, data){
+        console.log(data);
+      });
+    </script>
+  </head>
+
+  <body>
+    <h1>Sample D3.js</h1>
   </body>
+
 </html>
